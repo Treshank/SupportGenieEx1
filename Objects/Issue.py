@@ -7,7 +7,7 @@ def obj_dict(obj):
 
 
 class Issue:
-    _instances = []  # Stores the objects of class
+    _issues = []  # Stores the objects of class
 
     def __init__(self, arrival_t, result=None, response_t='00:00:00', completion_t='00:00:00', abandoned_t='00:00:00'):
         self.arrival_time = arrival_t
@@ -19,13 +19,13 @@ class Issue:
 
     @classmethod
     def get_intances(cls):
-        return cls._instances
+        return cls._issues
 
     @classmethod
     def avg_response_time(cls):
         total_res_time = 0
         no_of_res = 0
-        for obj in cls._instances:
+        for obj in cls._issues:
             if obj.result == 'r':
                 no_of_res += 1
                 res_time = (s2t(obj.response_time) - s2t(obj.arrival_time)).total_seconds()
@@ -37,7 +37,7 @@ class Issue:
     def avg_abandonment_time(cls):
         total_abandonment_time = 0
         no_of_aban = 0
-        for obj in cls._instances:
+        for obj in cls._issues:
             if obj.result == 'a':
                 no_of_aban += 1
                 aban_time = (s2t(obj.abandoned_time) - s2t(obj.arrival_time)).total_seconds()
@@ -50,7 +50,7 @@ class Issue:
 
     @classmethod
     def clear_objs(cls):
-        cls._instances = []
+        cls._issues = []
 
     @classmethod
     def push_to_json(cls, file):
@@ -58,3 +58,4 @@ class Issue:
         loaded = json.loads(string)
         formatted = json.dumps(loaded, indent=4)
         json.dump(formatted, file)
+        # print(formatted) #Uncomment to print formatted json in console
