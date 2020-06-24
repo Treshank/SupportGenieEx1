@@ -50,6 +50,8 @@ class Issue:
 
     @classmethod
     def clear_objs(cls):
+        for obj in cls._issues:
+            del obj
         cls._issues = []
 
     @classmethod

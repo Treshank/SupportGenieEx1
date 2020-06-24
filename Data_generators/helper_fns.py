@@ -4,8 +4,8 @@ import datetime
 
 def time_gen_regulator(no_of_agents):
     req_per_min = ((random.randrange(30, 50) * no_of_agents) // 8) // 60
-    if req_per_min < 2:
-        req_per_min = 2
+    if req_per_min < 1:
+        req_per_min = 1
     time_int = 60 // req_per_min
     return time_int
 

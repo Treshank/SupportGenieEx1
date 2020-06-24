@@ -10,5 +10,5 @@ def controller(no_of_agents, add_requests, art, aat):
     # print('Data Generated')
     # Issue.Issue.clear_objs()
     art, aat, awt = stats_generator.generate_data(no_of_agents, add_requests, art, aat)
-    print(art, aat, awt)
+    # print(art, aat, awt)
     return awt
