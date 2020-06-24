@@ -71,23 +71,22 @@
  ## Generating Data
  Most of the Data is generated using ```Data_generators.stats_generator.generate_data()```. It works as a control unit calling other functions of ```Data_generators```. The data generated is for a maximum of 7hrs or in the case of determining waiting time the number of requests.
  
- #### [``generate_data()``](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/stats_generator.py#L13)
+ #### [``generate_data()``](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/stats_generator.py#L11)
   This function is used for 2 operations, to generate the data upon which perdictions are made and to generate the data before the request whoose waiting time is to be predicted. 
-  The variables ```h = 9, m = 0, s = 5``` are indicating the service starts at 09:00:05. This would not be required really in the real world its just to generate the data. The agents are created using ```create_agents()``` in bulk. ```queue``` is used to hold all the objects that have arrived but not been assigned to an Agent. [```time_gen_regualor()```](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/helper_fns.py#L6)([read_more_here](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/helper_fns_explination.md#time_gen_regualor)) is used to generate time in incrementals specific to the workload ment for given number of agents. An Issue object is then created using the arrival time generated.
+  The variables ```h = 9, m = 0, s = 5``` are indicating the service starts at 09:00:05. This would not be required really in the real world its just to generate the data. ```queue``` is used to hold all the objects that have arrived but not been assigned to an Agent.
   ```
-  for agent in agents_avail:
-            if agent.issue_assigned is None:
-                agent.issue_assigned = generated_issue
-                fill_up_object(agent)
-                fl = 1
-                break
+  for i in range(no_of_agents):
+        agent = create_agent(i)
+        h, m, s = make_time(h, m, s, no_of_agents)
+        arrival_time = str(f'{h}:{m}:{s}')
+        req_no += 1
+        generated_issue = Issue.Issue(arrival_t=arrival_time)
+        agent.issue_assigned = generated_issue
+        fill_up_object(agent)
   ```
-  
-  The above snippet is used to check if any agents are free if they are then the issue is assigend to them and then the rest of the data is filled by [``fill_up_object()``](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/helper_fns.py#L39) ([more_here](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/helper_fns_explination.md#fill_up_object)). 
-  
-  The agents are then checked for possible completions to assign queue elements to the agents using [``agent_queue_handler()``](https://github.com/Treshank/SupportGenieEx1/blob/52e66e59445ed2bcc44b3c9badcec951e92cc491/Data_generators/object_fns.py#L12)
-  
-  If the data was not assigned to an agent in the above snippet, the generated issue is queued.
+  The agents are created using ```create_agents()``` one at a time and the issues are generated and assigned to the created agents. [```make_time()```](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/helper_fns.py#L13)([read_more_here](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/helper_fns_explination.md#make_time())) is used to generate time in incrementals specific to the workload meant for given number of agents. The data is filled by [``fill_up_object()``](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/helper_fns.py#L39) ([more_here](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/helper_fns_explination.md#fill_up_object)). 
+
+Making sure that issues generated are below working hours, the issues are created and appended to the queue, the agents are checked for accomodating issues in the queue using [``agent_queue_handler()``](https://github.com/Treshank/SupportGenieEx1/blob/52e66e59445ed2bcc44b3c9badcec951e92cc491/Data_generators/object_fns.py#L17) and the cycle continues till the last element is generated. 
   
   ```
   if no_of_req is not None and no_of_req == req_no:
@@ -101,15 +100,15 @@
   
 ## Calculate the response and abandonment times
 The calculations are performed by the 2 Issue class methods ``avg_response_time()`` and ``avg_abandonment_time()``
-#### [``avg_response_time()``](https://github.com/Treshank/SupportGenieEx1/blob/bd35486d5182d3091122f01ff61bf697c43ead95/Objects/Issue.py#L25) 
+#### [``avg_response_time()``](https://github.com/Treshank/SupportGenieEx1/blob/bd35486d5182d3091122f01ff61bf697c43ead95/Classes/Issue.py#L25) 
 When the function is called much like most averge functions, the ``total_reslution_time`` is calculated as sum of differences between response time and arrival time. It is then divided by the total no of objects that were taken into consideration .ie. objects with 'r' as result and then returned. 
 
-#### [``avg_abandonment_time()``](https://github.com/Treshank/SupportGenieEx1/blob/bd35486d5182d3091122f01ff61bf697c43ead95/Objects/Issue.py#L37)
+#### [``avg_abandonment_time()``](https://github.com/Treshank/SupportGenieEx1/blob/bd35486d5182d3091122f01ff61bf697c43ead95/Classes/Issue.py#L37)
 Similar to calulating the average response time, objects that are abandoned are selected using result property ('a') and then summed together and divided by the number of abandonments to give the average abandonment time. 
 
 
 ## Create data based on number of requests
-This part involves calling the [``generate_data()``](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/stats_generator.py#L13) function with the parameters ``no_of_req``,``avg_res_time``, and ``avg_aban_time`` that were generated from the functions previous execution. The data generation part is the same as explained already. 
+This part involves calling the [``generate_data()``](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/stats_generator.py#L11) function with the parameters ``no_of_req``,``avg_res_time``, and ``avg_aban_time`` that were generated from the functions previous execution. The data generation part is the same as explained already. 
 ```
 if no_of_req is not None and no_of_req == req_no:
             break
