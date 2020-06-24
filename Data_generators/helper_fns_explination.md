@@ -16,7 +16,7 @@ These values are then set to the agent passed as parameter after setting result 
 
 
 #### ```make_time()```
-Use to make vaild hours, min, and sec from given time range incriment. Calls ``time_gen_regulator()`` to recive incremental value.
+Use to make vaild hours, min, and sec from given time returned by calling ``time_gen_regulator()`` to recive incremental value.
 
 #### ```s2t()```
 converts a stirng to a datetime object.
