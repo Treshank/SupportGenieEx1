@@ -12,3 +12,6 @@
    
    **Note: It is probably far from what happens in reality, but good enough to work with**
    
+#### ```fill_up_object()```
+Since this function only fills up inital objects, the response time is considered as a random number between 10 and 50 seconds. The completion time is set as a random number between 9min and 25min. 
+These values are then set to the agent passed as parameter after setting result is ``'r'``, meaning responded. 
