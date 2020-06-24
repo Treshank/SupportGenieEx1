@@ -82,9 +82,9 @@
                 break
   ```
   
-  The above snippet is used to check if any agents are free if they are then the issue is assigend to them and then the rest of the data is filled by ``[fill_up_object()](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/helper_fns.py#L39)`` ([more_here](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/helper_fns_explination.md#fill_up_object)). 
+  The above snippet is used to check if any agents are free if they are then the issue is assigend to them and then the rest of the data is filled by [``fill_up_object()``](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/helper_fns.py#L39) ([more_here](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/helper_fns_explination.md#fill_up_object)). 
   
-  The agents are then checked for possible completions to assign queue elements to the agents using ``[agent_queue_handler()](https://github.com/Treshank/SupportGenieEx1/blob/52e66e59445ed2bcc44b3c9badcec951e92cc491/Data_generators/object_fns.py#L12)``
+  The agents are then checked for possible completions to assign queue elements to the agents using [``agent_queue_handler()``](https://github.com/Treshank/SupportGenieEx1/blob/52e66e59445ed2bcc44b3c9badcec951e92cc491/Data_generators/object_fns.py#L12)
   
   If the data was not assigned to an agent in the above snippet, the generated issue is queued.
   
