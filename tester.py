@@ -19,12 +19,12 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(0, res)
 
     def test_case4(self):
-        res = main.controller(50, 500)
+        res = main.controller(50, 100)
         print(int(res), 'seconds')
         self.assertEqual(res, res)
 
     def test_case5(self):
-        res = main.controller(70, 600)
+        res = main.controller(70, 140)
         print(int(res), 'seconds')
         self.assertEqual(res, res)
 
