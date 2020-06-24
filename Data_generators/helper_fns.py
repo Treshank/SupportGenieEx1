@@ -4,17 +4,14 @@ import datetime
 
 def time_gen_regulator(no_of_agents):
     req_per_min = ((random.randrange(30, 50) * no_of_agents) // 8) // 60
-    if req_per_min == 0:
-        req_per_min = 1
+    if req_per_min < 2:
+        req_per_min = 2
     time_int = 60 // req_per_min
-    if time_int >= 55:
-        time_int = 55
-    time_range = random.randrange(time_int - 5, time_int + 5)
-    return time_range
+    return time_int
 
 
-def make_time(h, m, s, time_range):
-    s += time_range
+def make_time(h, m, s, no_of_agents):
+    s += time_gen_regulator(no_of_agents)
     if s > 59:
         m += 1
         s %= 60

@@ -1,5 +1,5 @@
-import Objects.Issue as Issue
-import Objects.Agent as Agent
+import Classes.Issue as Issue
+import Classes.Agent as Agent
 from Data_generators.helper_fns import time_gen_regulator, make_time, s2t, fill_up_object
 from Data_generators.object_fns import agent_queue_handler
 
@@ -10,7 +10,6 @@ def create_agents(no_of_agents):
 
 
 def generate_data(no_of_agents, no_of_req=None, avg_res_time=None, avg_aban_time=None):
-    # time interval generation
     h = 9
     m = 0
     s = 5
@@ -18,21 +17,20 @@ def generate_data(no_of_agents, no_of_req=None, avg_res_time=None, avg_aban_time
     agents_avail = Agent.Agent.get_instances()
     queue = []
     req_no = 0
-    while h < 16:
-        time_range = time_gen_regulator(no_of_agents)
-        h, m, s = make_time(h, m, s, time_range)
+    for agent in agents_avail:
+        if agent.issue_assigned is None:
+            h, m, s = make_time(h, m, s, no_of_agents)
+            arrival_time = str(f'{h}:{m}:{s}')
+            req_no += 1
+            generated_issue = Issue.Issue(arrival_t=arrival_time)
+            agent.issue_assigned = generated_issue
+            fill_up_object(agent)
+    while h < 17:
+        h, m, s = make_time(h, m, s, no_of_agents)
         arrival_time = str(f'{h}:{m}:{s}')
         generated_issue = Issue.Issue(arrival_t=arrival_time)
-        fl = 0
-        for agent in agents_avail:
-            if agent.issue_assigned is None:
-                agent.issue_assigned = generated_issue
-                fill_up_object(agent)
-                fl = 1
-                break
         agent_queue_handler(agents_avail, queue, generated_issue)
-        if fl == 0:
-            queue.append(generated_issue)
+        queue.append(generated_issue)
         req_no += 1
         if no_of_req is not None and no_of_req == req_no:
             break
