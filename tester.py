@@ -13,11 +13,11 @@ class MyTestCase(unittest.TestCase):
         #     Issue.Issue.push_to_json(gen_data)
         print('Data Generated')
         Issue.Issue.clear_objs()
-        res = main.controller(no_of_agents, 10, art, aat)
+        res = main.controller(no_of_agents, add_requests=10, art=art, aat=aat)
         print(int(res), 'seconds')
         self.assertEqual(0, res)
         Issue.Issue.clear_objs()
-        res = main.controller(no_of_agents, 50, art, aat)
+        res = main.controller(no_of_agents, add_requests=50, art=art, aat=aat)
         print(int(res), 'seconds')
         self.assertEqual(res, res)
 
@@ -25,11 +25,11 @@ class MyTestCase(unittest.TestCase):
         no_of_agents = 50
         art, aat, awt = generate_data(no_of_agents)
         Issue.Issue.clear_objs()
-        res = main.controller(no_of_agents, 50, art, aat)
+        res = main.controller(no_of_agents, add_requests=50, art=art, aat=aat)
         print(int(res), 'seconds')
         self.assertEqual(0, res)
         Issue.Issue.clear_objs()
-        res = main.controller(no_of_agents, 150, art, aat)
+        res = main.controller(no_of_agents, add_requests=150, art=art, aat=aat)
         print(int(res), 'seconds')
         self.assertEqual(res, res)
 
@@ -37,11 +37,11 @@ class MyTestCase(unittest.TestCase):
         no_of_agents = 70
         art, aat, awt = generate_data(no_of_agents)
         Issue.Issue.clear_objs()
-        res = main.controller(no_of_agents, 520, art, aat)
+        res = main.controller(no_of_agents, add_requests=520, art=art, aat=aat)
         print(int(res), 'seconds')
         self.assertEqual(res, res)
         Issue.Issue.clear_objs()
-        res = main.controller(no_of_agents, 700, art, aat)
+        res = main.controller(no_of_agents, add_requests=700, art=art, aat=aat)
         print(int(res), 'seconds')
         self.assertEqual(res, res)
 
