@@ -21,6 +21,6 @@ def agent_queue_handler(agents, queue, generated_issue):
         if (s2t(generated_issue.arrival_time) - s2t(ele.arrival_time)) > leave:
             ele.result = 'a'
             ele.abandoned_time = t2s(s2t(ele.arrival_time) + leave)
-        else:
+        elif len(free_agents) > 0:
             free_agents[0].issue_assigned = ele
             free_agents = free_agents[1:]
