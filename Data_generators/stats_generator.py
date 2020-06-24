@@ -1,8 +1,7 @@
 import random
 import Objects.Issue as Issue
 import Objects.Agent as Agent
-from Data_generators.helper_fns import time_gen_regulator, make_time, s2t
-from Data_generators.object_creator import fill_up_object
+from Data_generators.helper_fns import time_gen_regulator, make_time, s2t, fill_up_object
 from Data_generators.object_fns import agent_queue_handler
 
 
