@@ -6,7 +6,7 @@
   
 **The accuracy of the program is always questionable. I guess we'll never know until real world data is used and verified.**
 
-**You can skip the explination and directly go to the user manual if you want but I would recommend reading this once before**
+**You can skip the explination and directly go to the user manual if you want but I would recommend reading this once.**
 
 # Introduction
   This program is used to predict the time a caller would have to wait before the request would be answered. It follows a simple set of steps in order to do so.
