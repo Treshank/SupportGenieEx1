@@ -15,7 +15,7 @@ class Issue:
         self.response_time = response_t
         self.completion_time = completion_t
         self.abandoned_time = abandoned_t
-        self.__class__._instances.append(self)
+        self.__class__._issues.append(self)
 
     @classmethod
     def get_intances(cls):
@@ -54,7 +54,7 @@ class Issue:
 
     @classmethod
     def push_to_json(cls, file):
-        string = json.dumps(cls._instances, default=obj_dict)
+        string = json.dumps(cls._issues, default=obj_dict)
         loaded = json.loads(string)
         formatted = json.dumps(loaded, indent=4)
         json.dump(formatted, file)
