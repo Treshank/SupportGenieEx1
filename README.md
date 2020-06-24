@@ -10,8 +10,8 @@
   This program is used to predict the time a caller would have to wait before the request would be answered. It follows a simple set of steps in order to do so.
   1. [Generate data](https://github.com/Treshank/SupportGenieEx1/blob/master/README.md#generating-data).
   2. [Calculate the response and abandonment times](https://github.com/Treshank/SupportGenieEx1/blob/master/README.md#Calculate-the-response-and-abandonment-times)
-  3. [Create data based on number of requests](https://github.com/Treshank/SupportGenieEx1/blob/master/README.md#Create-date-based-on-number-of-requests)
-  4. [Correcting the calculations and predition](https://github.com/Treshank/SupportGenieEx1/blob/master/README.md#Correcting-the-calculations-and-predition)
+  3. [Create data based on number of requests](https://github.com/Treshank/SupportGenieEx1/blob/master/README.md#create-data-based-on-number-of-requests)
+  4. [Correcting the calculations and predition](https://github.com/Treshank/SupportGenieEx1#correcting-the-calculations-and-predition)
   
 **Note: It would help to have the code open in another window**
   
