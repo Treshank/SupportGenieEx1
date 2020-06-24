@@ -134,3 +134,4 @@ if no_of_req == req_no:
  So if the average response time is 30seconds, the prediction for this person would be a wait time of 60s or 1min.
  
  
+ ### Read the [USER_MANUAL](https://github.com/Treshank/SupportGenieEx1/blob/master/USER_MANUAL.md) to understand how to use the program. 
