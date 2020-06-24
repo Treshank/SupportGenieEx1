@@ -1,5 +1,5 @@
 # SupportGenieEx1
-  This program was made as an assignment to submit for an internship as a test. The code will be explained as detailed as possible. Any issues in the code or its explination are welcome in the Issues section. 
+  This program was made as an assignment to submit for an internship as a test. The code will be explained as detailed as possible. Any issues in the code or its explination are welcome in the Issues section.
   
 ### Disclaimer
   The program works on the basis of generated data. In order to achieve this, a random data generator is made such that the data generated is close to what is expected from a good call service provider. Due to this data generation takes time and I would highly recommend that in order to not use parameters that are too large as it would take alot of time to generate it's data.
@@ -9,10 +9,9 @@
 # Introduction
   This program is used to predict the time a caller would have to wait before the request would be answered. It follows a simple set of steps in order to do so.
   1. [Generate data](https://github.com/Treshank/SupportGenieEx1/blob/master/README.md#generating-data).
-  2. Calculate the waiting and abandonment times. 
-  3. Create data based on number of requests. 
-  4. Correct the calculated times.
-  5. Predict the time to wait.
+  2. [Calculate the response and abandonment times](https://github.com/Treshank/SupportGenieEx1/blob/master/README.md#Calculate-the-response-and-abandonment-times)
+  3. [Create data based on number of requests](https://github.com/Treshank/SupportGenieEx1/blob/master/README.md#Create-date-based-on-number-of-requests)
+  4. [Correcting the calculations and predition](https://github.com/Treshank/SupportGenieEx1/blob/master/README.md#Correcting-the-calculations-and-predition)
   
 **Note: It would help to have the code open in another window**
   
@@ -70,9 +69,9 @@
  ## Generating Data
  Most of the Data is generated using ```Data_generators.stats_generator.generate_data()```. It works as a control unit calling other functions of ```Data_generators```. The data generated is for a maximum of 7hrs or in the case of determining waiting time the number of requests.
  
- #### [``generate_data()``](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/stats_generator.py#L14)
+ #### [``generate_data()``](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/stats_generator.py#L13)
   This function is used for 2 operations, to generate the data upon which perdictions are made and to generate the data before the request whoose waiting time is to be predicted. 
-  The variables ```h = 9, m = 0, s = 5``` are indicating the service starts at 09:00:05. This would not be required really in the real world its just to generate the data. The agents are created using ```create_agents()``` in bulk. ```queue``` is used to hold all the objects that have arrived but not been assigned to an Agent. [```time_gen_regualor()```](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/helper_fns.py#L5)([read_more_here](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/helper_fns_explination.md#time_gen_regualor)) is used to generate time in incrementals specific to the workload ment for given number of agents. An Issue object is then created using the arrival time generated.
+  The variables ```h = 9, m = 0, s = 5``` are indicating the service starts at 09:00:05. This would not be required really in the real world its just to generate the data. The agents are created using ```create_agents()``` in bulk. ```queue``` is used to hold all the objects that have arrived but not been assigned to an Agent. [```time_gen_regualor()```](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/helper_fns.py#L6)([read_more_here](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/helper_fns_explination.md#time_gen_regualor)) is used to generate time in incrementals specific to the workload ment for given number of agents. An Issue object is then created using the arrival time generated.
   ```
   for agent in agents_avail:
             if agent.issue_assigned is None:
@@ -96,13 +95,41 @@
   
   The average response time and the average abandonment time is then calculated for the dataset using the respective class functions.
   
-  The rest of the function belongs to predictive side of this function and shall be explained below.  
+  The rest of the function belongs to predictive side of this function and shall be explained below. 
+  
+## Calculate the response and abandonment times
+The calculations are performed by the 2 Issue class methods ``avg_response_time()`` and ``avg_abandonment_time()``
+#### [``avg_response_time()``](https://github.com/Treshank/SupportGenieEx1/blob/bd35486d5182d3091122f01ff61bf697c43ead95/Objects/Issue.py#L25) 
+When the function is called much like most averge functions, the ``total_reslution_time`` is calculated as sum of differences between response time and arrival time. It is then divided by the total no of objects that were taken into consideration .ie. objects with 'r' as result and then returned. 
 
+#### [``avg_abandonment_time()``](https://github.com/Treshank/SupportGenieEx1/blob/bd35486d5182d3091122f01ff61bf697c43ead95/Objects/Issue.py#L37)
+Similar to calulating the average response time, objects that are abandoned are selected using result property ('a') and then summed together and divided by the number of abandonments to give the average abandonment time. 
+
+
+## Create data based on number of requests
+This part involves calling the [``generate_data()``](https://github.com/Treshank/SupportGenieEx1/blob/master/Data_generators/stats_generator.py#L13) function with the parameters ``no_of_req``,``avg_res_time``, and ``avg_aban_time`` that were generated from the functions previous execution. The data generation part is the same as explained already. 
+```
+if no_of_req is not None and no_of_req == req_no:
+            break
+```
+Here the above snippet comes into action limiting the number of requests generated to ``no_of_req``
+
+## Correcting the calculations and predition
+This part involves making corrections by the new trends and predicting the value. 
+```
+if no_of_req == req_no:
+        ele_in_queue = len(queue)-1
+        avg_response_time = (avg_response_time + avg_res_time) // 2
+        multiplier = ele_in_queue // no_of_agents + 1
+        waiting_time = avg_response_time*multiplier
+    else:
+        waiting_time = 0
+ ```
+ Here first the new value of response time (``avg_response_time``) and the recieved value (``avg_res_time``) are averaged correcting for the new trend in data. The elements in the queue determine which cycle does a person belong. 
+ ex: There are 18 elements in the queue and 10 agents then,
+ ``multiplier = 18//10 + 1 = 1+1 = 2``
+ This means that the person is in the second cycle of the queue and the waiting time would be,
+ ``avg_response_time * 2.``
+ So if the average response time is 30seconds, the prediction for this person would be a wait time of 60s or 1min.
  
-         
-  
-  
-  
-    
-  
-  
+ 
