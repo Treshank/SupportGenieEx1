@@ -1,6 +1,5 @@
 import random
 import datetime
-from Objects import Agent, Issue
 
 
 def time_gen_regulator(no_of_agents):
