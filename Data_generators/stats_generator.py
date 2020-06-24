@@ -1,6 +1,6 @@
 import Classes.Issue as Issue
 import Classes.Agent as Agent
-from Data_generators.helper_fns import time_gen_regulator, make_time, s2t, fill_up_object
+from Data_generators.helper_fns import make_time, fill_up_object
 from Data_generators.object_fns import agent_queue_handler
 
 
