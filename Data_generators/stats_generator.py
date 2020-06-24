@@ -13,7 +13,6 @@ def generate_data(no_of_agents, no_of_req=None, avg_res_time=None, avg_aban_time
     m = 0
     s = 5
     queue = []
-    times = 0
     req_no = 0
     for i in range(no_of_agents):
         agent = create_agent(i)
@@ -33,7 +32,6 @@ def generate_data(no_of_agents, no_of_req=None, avg_res_time=None, avg_aban_time
             break
         queue.append(generated_issue)
         req_no += 1
-        times += 1
     avg_response_time = Issue.Issue.avg_response_time()
     avg_abandonment_time = Issue.Issue.avg_abandonment_time()
     if no_of_req == req_no:
